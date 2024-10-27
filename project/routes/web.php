@@ -16,16 +16,14 @@ use App\Http\Controllers\CategoryController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('homee');
 });
 
 
 Route::resource('posts', PostController::class);
 Route::resource('categories', CategoryController::class);
 
-Route::get('login', [UserController::class, 'loginForm'])->name('login');
-Route::post('login', [UserController::class, 'login']);
-Route::post('logout', [UserController::class, 'logout'])->name('logout');
+
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('users', UserController::class);
