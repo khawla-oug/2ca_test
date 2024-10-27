@@ -1,14 +1,12 @@
-@extends('layouts.layout')
-
-@section('title', 'Liste des Posts')
+@extends('layouts.app')
 
 @section('content')
-    <h1>Liste des Posts</h1>
+    <h1>Posts</h1>
 
-    <a href="{{ route('posts.create') }}" class="button">Créer un nouveau post</a>
+    <a href="{{ route('posts.create') }}">Create New Post</a>
 
     @if(session('success'))
-        <p style="color: green;">{{ session('success') }}</p>
+        <div>{{ session('success') }}</div>
     @endif
 
     <table>
@@ -27,11 +25,11 @@
                     <td>{{ $post->category->name }}</td>
                     <td>{{ $post->status }}</td>
                     <td>
-                        <a href="{{ route('posts.edit', $post->id) }}" class="button">Modifier</a>
-                        <form action="{{ route('posts.destroy', $post->id) }}" method="POST" style="display: inline;">
+                        <a href="{{ route('posts.edit', $post->id) }}">Edit</a>
+                        <form action="{{ route('posts.destroy', $post->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="button" style="background-color: #d9534f;">Supprimer</button>
+                            <button type="submit">Delete</button>
                         </form>
                     </td>
                 </tr>

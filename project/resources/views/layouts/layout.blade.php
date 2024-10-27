@@ -13,8 +13,10 @@
             <li><a href="{{ route('posts.index') }}">Posts</a></li>
             <li><a href="{{ route('categories.index') }}">Catégories</a></li>
             @auth
-                <li><a href="{{ route('logout') }}">Déconnexion</a></li>
-            @else
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: inline;">
+        @csrf
+        <button type="submit" style="background: none; border: none; cursor: pointer; color: white; margin-left: 0px;">Se déconnecter</button>
+    </form>            @else
                 <li><a href="{{ route('login') }}">Connexion</a></li>
                 <li><a href="{{ route('register') }}">Inscription</a></li>
             @endauth

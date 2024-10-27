@@ -13,8 +13,8 @@ class PostController extends Controller
      */
     public function index()
 {
-    $posts = auth()->check() ? Post::all() : Post::where('status', 'published')->get();
-    return view('posts.index', compact('posts'));
+        $posts = Post::with('category')->get(); // Eager load categories
+        return view('posts.index', compact('posts'));
 }
 
     /**
@@ -24,7 +24,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all(); // Fetch categories for the dropdown
+        return view('posts.create', compact('categories'));
     }
 
 
@@ -47,25 +48,15 @@ class PostController extends Controller
      */
     public function store(Request $request)
 {
-    $validated = $request->validate([
-        'title' => 'required',
+    $request->validate([
+        'title' => 'required|max:255',
         'content' => 'required',
         'category_id' => 'required|exists:categories,id',
+        'status' => 'required|in:draft,published',
     ]);
 
-    Post::create([
-        'title' => $validated['title'],
-        'content' => $validated['content'],
-        'category_id' => $validated['category_id'],
-        'status' => 'draft', // Statut par défaut
-    ]);
-
-    if (!auth()->user()->hasRole('admin') ) {
-        return redirect()->route('posts.index')->with('success', 'Post created successfully by Admin');
-    }else{
-        return redirect()->route('posts.index')->with('error', 'Unauthorized');
-
-    }
+    Post::create($request->all());
+    return redirect()->route('posts.index')->with('success', 'Post created successfully.');
 
 }
 
@@ -77,7 +68,8 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('posts.show', compact('post'));
+
     }
 
     /**
@@ -88,11 +80,8 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $post = Post::findOrFail($id);
-        if (auth()->user()->id === $post->user_id && $post->status === 'draft') {
-             return view('posts.edit', compact('post'));
-        }
-            return redirect()->route('posts.index')->with('error', 'Unauthorized');
+        $categories = Category::all();
+        return view('posts.edit', compact('post', 'categories'));
      }
 
     /**
@@ -104,7 +93,15 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'title' => 'required|max:255',
+            'content' => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'status' => 'required|in:draft,published',
+        ]);
+
+        $post->update($request->all());
+        return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
     }
 
     /**
@@ -115,6 +112,7 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post->delete();
+        return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
     }
 }
