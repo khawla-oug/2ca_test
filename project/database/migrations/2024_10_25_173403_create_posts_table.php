@@ -13,16 +13,16 @@ class CreatePostsTable extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
-            $table->bigIncrements('id'); // Post ID as BIGINT
-            $table->unsignedBigInteger('category_id'); // Foreign key as BIGINT
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade'); // Foreign key constraint
-            
-            $table->string('title');
-            $table->text('content');
-            $table->enum('status', ['draft', 'published'])->default('draft');
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('posts')) {
+            Schema::create('posts', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('category_id')->constrained()->onDelete('cascade');
+                $table->string('title');
+                $table->text('content');
+                $table->enum('status', ['draft', 'published'])->default('draft');
+                $table->timestamps();
+            });
+        }
         
     }
 

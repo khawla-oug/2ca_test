@@ -1,37 +1,40 @@
-@extends('layouts.layout')
-
-@section('title', 'Liste des Catégories')
-
-@section('content')
-    <h1>Liste des Catégories</h1>
-
-    <a href="{{ route('categories.create') }}" class="button">Créer une nouvelle catégorie</a>
-
-    @if(session('success'))
-        <p style="color: green;">{{ session('success') }}</p>
-    @endif
-
-    <table>
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($categories as $category)
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Catégories</title>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}"> <!-- Ajoutez votre fichier CSS ici -->
+</head>
+<body>
+    <div class="container">
+        <h1>Liste des Catégories</h1>
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>{{ $category->name }}</td>
-                    <td>
-                        <a href="{{ route('categories.edit', $category->id) }}" class="button">Modifier</a>
-                        <form action="{{ route('categories.destroy', $category->id) }}" method="POST" style="display: inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="button" style="background-color: #d9534f;">Supprimer</button>
-                        </form>
-                    </td>
+                    <th>ID</th>
+                    <th>Nom de la Catégorie</th>
+                    <th>Actions</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
-@endsection
+            </thead>
+            <tbody>
+                @foreach($categories as $category)
+                    <tr>
+                        <td>{{ $category->id }}</td>
+                        <td>{{ $category->name }}</td>
+                        <td>
+                            <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-warning">Modifier</a>
+                            <form action="{{ route('categories.destroy', $category->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <a href="{{ route('categories.create') }}" class="btn btn-primary">Ajouter une Catégorie</a>
+    </div>
+</body>
+</html>

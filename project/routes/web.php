@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CategoryController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,6 +26,7 @@ Route::resource('categories', CategoryController::class);
 
 
 
+/*
 Route::middleware(['auth'])->group(function () {
     Route::resource('users', UserController::class);
 });
@@ -34,8 +36,8 @@ Route::middleware(['role:admin'])->group(function () {
     Route::resource('posts', PostController::class);
     Route::resource('categories', CategoryController::class);
 });
+*/
 Route::get('/home', 'HomeController@index')->name('home');
-
 
 Auth::routes();
 

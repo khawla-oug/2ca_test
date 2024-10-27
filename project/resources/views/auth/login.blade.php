@@ -1,4 +1,4 @@
-@extends('layouts.layout')
+@extends('layouts.app')
 
 @section('title', 'Login')
 
@@ -19,7 +19,7 @@
         <label for="password">Mot de passe</label>
         <input type="password" name="password" id="password" required>
 
-        <button type="submit">Se connecter</button>
+        <button class="btn btn-primary" type="submit">Se connecter</button>
     </form>
 
     <p>Pas encore inscrit ? <a href="{{ route('register') }}">Créer un compte</a></p>

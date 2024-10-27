@@ -1,4 +1,4 @@
-@extends('layouts.layout')
+@extends('layouts.app')
 
 @section('title', 'Inscription')
 
@@ -8,7 +8,6 @@
     
     <form action="{{ route('register') }}" method="POST">
         @csrf
-
         <label for="name">Nom</label>
         <input type="text" name="name" id="name" required>
 
@@ -21,7 +20,7 @@
         <label for="password_confirmation">Confirmez le mot de passe</label>
         <input type="password" name="password_confirmation" id="password_confirmation" required>
 
-        <button type="submit">S'inscrire</button>
+        <button class="btn btn-primary" type="submit">S'inscrire</button>
     </form>
 
     <p>Déjà inscrit ? <a href="{{ route('login') }}">Se connecter</a></p>
