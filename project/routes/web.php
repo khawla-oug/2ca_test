@@ -20,10 +20,13 @@ Route::get('/', function () {
     return view('homee');
 });
 
-
 Route::resource('posts', PostController::class);
+
 Route::resource('categories', CategoryController::class);
 
+/*Route::get('/posts', function () {
+    return view('posts.index');
+});*/
 
 
 /*

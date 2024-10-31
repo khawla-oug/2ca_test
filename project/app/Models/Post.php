@@ -11,9 +11,11 @@ class Post extends Model
     use HasFactory;
 
     protected $fillable = ['title', 'content', 'status', 'category_id']; 
+
     // pour les relations
     public function category()
     {
+        //chaque post appartient à une catégorie
         return $this->belongsTo(Category::class);
     }
 }

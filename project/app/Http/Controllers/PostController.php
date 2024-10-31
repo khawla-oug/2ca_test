@@ -13,7 +13,7 @@ class PostController extends Controller
      */
     public function index()
 {
-        $posts = Post::with('category')->get(); // Eager load categories
+        $posts = Post::with('category')->get(); // load categories
         return view('posts.index', compact('posts'));
 }
 
