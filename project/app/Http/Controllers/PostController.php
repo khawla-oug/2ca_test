@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Post;
+use App\Category;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -14,7 +16,9 @@ class PostController extends Controller
     public function index()
 {
         $posts = Post::with('category')->get(); // load categories
-        return view('posts.index', compact('posts'));
+        return view('testpost', compact('posts'));
+      //  return view('testpost');
+
 }
 
     /**
@@ -25,7 +29,7 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all(); // Fetch categories for the dropdown
-        return view('posts.create', compact('categories'));
+        return view('createpost', compact('categories'));
     }
 
 
@@ -66,11 +70,13 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function show($id)
     {
+        $post = Post::findOrFail($id);
         return view('posts.show', compact('post'));
-
     }
+    
 
     /**
      * Show the form for editing the specified resource.
@@ -78,11 +84,13 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        $categories = Category::all();
-        return view('posts.edit', compact('post', 'categories'));
-     }
+   public function edit($id)
+{
+    $post = Post::findOrFail($id);
+    $categories = Category::all();
+    return view('posts.edit', compact('post', 'categories'));
+}
+
 
     /**
      * Update the specified resource in storage.
@@ -99,10 +107,12 @@ class PostController extends Controller
             'category_id' => 'required|exists:categories,id',
             'status' => 'required|in:draft,published',
         ]);
-
+    
+        $post = Post::findOrFail($id);
         $post->update($request->all());
         return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
     }
+    
 
     /**
      * Remove the specified resource from storage.
@@ -111,8 +121,10 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        $post->delete();
-        return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
-    }
+{
+    $post = Post::findOrFail($id);
+    $post->delete();
+    return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
+}
+
 }

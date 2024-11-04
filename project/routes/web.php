@@ -20,9 +20,7 @@ Route::get('/', function () {
     return view('homee');
 });
 
-Route::resource('posts', PostController::class);
 
-Route::resource('categories', CategoryController::class);
 
 /*Route::get('/posts', function () {
     return view('posts.index');
@@ -42,5 +40,24 @@ Route::middleware(['role:admin'])->group(function () {
 */
 Route::get('/home', 'HomeController@index')->name('home');
 
+
+
 Auth::routes();
+
+//Route::resource('posts', PostController::class);
+
+/*Route::get('/test-posts', function() {
+    return app(App\Http\Controllers\PostController::class)->index();
+});*/
+
+Route::get('/test-posts', function() {
+    return app(PostController::class)->index();
+})->name('posts.index'); // on a nommé la route pour referencer en index
+
+Route::get('/create-posts', function() {
+    return app(PostController::class)->create();
+})->name('posts.create');
+
+Route::resource('categories', CategoryController::class);
+//Route::get('/categories', [App\Http\Controllers\PostController::class, 'index']);
 
