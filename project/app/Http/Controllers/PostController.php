@@ -16,8 +16,7 @@ class PostController extends Controller
     public function index()
 {
         $posts = Post::with('category')->get(); // load categories
-        return view('testpost', compact('posts'));
-      //  return view('testpost');
+       return view('testpost', compact('posts'));
 
 }
 

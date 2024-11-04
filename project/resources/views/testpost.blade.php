@@ -20,12 +20,12 @@
                     <td>{{ $post->category->name }}</td>
                     <td>{{ $post->status }}</td>
                     <td>
-                        <a href="">Edit</a>
-                        <form action="" method="POST" style="display:inline;">
-                            @csrf
+                    <a href="">Edit</a>
+                    <form action="{{ route('posts.destroy', $post->id) }}" method="POST" style="display:inline;">
+                    @csrf
                             @method('DELETE')
                             <button type="submit">Delete</button>
-                        </form>
+                    </form>
                     </td>
                 </tr>
             @endforeach

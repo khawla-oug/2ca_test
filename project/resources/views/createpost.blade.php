@@ -3,7 +3,7 @@
 @section('content')
     <h1>Create Post</h1>
 
-    <form action="" method="POST">
+    <form action="{{ route('posts.store') }}" method="POST">
         @csrf
         <div>
             <label for="title">Title:</label>
@@ -16,7 +16,9 @@
         <div>
             <label for="category_id">Category:</label>
             <select name="category_id" required>
-               
+            @foreach($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
             </select>
         </div>
         <div>

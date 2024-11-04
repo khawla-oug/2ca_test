@@ -16,8 +16,10 @@ class CategoryController extends Controller
     public function index()
     {
         // pour récupérer toutes les catégories
-        $categories = Category::all();
-        return view('categories.index', compact('categories'));  // pour les afficher 
+       $categories = Category::all();
+        return view('test-categories', compact('categories'));  // pour les afficher 
+        //return view('test-categories');
+
     }
 
     /**
@@ -27,7 +29,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('categories.create');
+        return view('createcategory');
 
     }
 
@@ -68,7 +70,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        return view('categories.edit', compact('category'));
+        $category = Category::findOrFail($id); // Fetch the category by ID
+        return view('edit-categories', compact('category'));
 
     }
 
@@ -84,9 +87,10 @@ class CategoryController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
-
-        $category->update($request->only('name'));
-
+    
+        $category = Category::findOrFail($id); // Fetch the category by ID
+        $category->update($request->only('name')); // Update the category
+    
         return redirect()->route('categories.index')->with('success', 'Category updated successfully.');
     }
 
@@ -98,7 +102,8 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category->delete();
+        $category = Category::findOrFail($id); // Ensure you find the category first
+        $category->delete(); // Delete the category
         return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');
     }
 }
